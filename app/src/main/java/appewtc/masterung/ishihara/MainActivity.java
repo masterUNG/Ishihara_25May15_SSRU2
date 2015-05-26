@@ -24,7 +24,7 @@ public class MainActivity extends ActionBarActivity {
     private RadioButton choice1RadioButton, choice2RadioButton,
             choice3RadioButton, choice4RadioButton;
     private Button answerButton;
-    private int radioAnInt, indexAnInt;
+    private int radioAnInt, indexAnInt, scoreAnInt;
     private SSRUmodel objSsrUmodel;
 
 
@@ -71,6 +71,25 @@ public class MainActivity extends ActionBarActivity {
                 R.drawable.ishihara_09, R.drawable.ishihara_10};
         ishiharaImageView.setImageResource(intDrawabe[buttonAnInt]);
 
+        //Change Choice
+        int intTimes[] = new int[10];
+        intTimes[0] = R.array.times1;
+        intTimes[1] = R.array.times2;
+        intTimes[2] = R.array.times3;
+        intTimes[3] = R.array.times4;
+        intTimes[4] = R.array.times5;
+        intTimes[5] = R.array.times6;
+        intTimes[6] = R.array.times7;
+        intTimes[7] = R.array.times8;
+        intTimes[8] = R.array.times9;
+        intTimes[9] = R.array.times10;
+
+        String strChoice[] = new String[4];
+        strChoice = getResources().getStringArray(intTimes[buttonAnInt]);
+        choice1RadioButton.setText(strChoice[0]);
+        choice2RadioButton.setText(strChoice[1]);
+        choice3RadioButton.setText(strChoice[2]);
+        choice4RadioButton.setText(strChoice[3]);
     }   // changeView
 
     private void radioController() {
@@ -130,12 +149,28 @@ public class MainActivity extends ActionBarActivity {
 
         } else {
 
+            //Check Score
+            checkScore();
+
             //Check Times
             checkTimes();
 
         }
 
     }   //checkZero
+
+    private void checkScore() {
+
+        int intAnswer[] = new int[]{1, 2, 3, 1, 2, 3, 1, 2, 4, 4};
+        int intUser[] = new int[10];
+        intUser[indexAnInt] = radioAnInt;
+        if (intUser[indexAnInt] == intAnswer[indexAnInt]) {
+            scoreAnInt += 1;
+        }
+
+        choiceRadioGroup.clearCheck();
+
+    }   //checkScore
 
     private void checkTimes() {
 
@@ -150,7 +185,7 @@ public class MainActivity extends ActionBarActivity {
             indexAnInt += 1;
 
             //Show Controller Call View
-            questionTextView.setText(Integer.toString(indexAnInt + 1) + ". What is this ?" );
+            questionTextView.setText(Integer.toString(indexAnInt + 1) + ". What is this ?");
 
             //Show Controller Call Model
             objSsrUmodel.setButtonAnInt(indexAnInt);
@@ -161,6 +196,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void intentToShowScore() {
         Intent objIntent = new Intent(MainActivity.this, ShowScoreActivity.class);
+        objIntent.putExtra("Score", scoreAnInt);
         startActivity(objIntent);
         finish();
     }
@@ -193,14 +229,16 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.itemAboutMe:
+                Intent aboutIntent = new Intent(MainActivity.this, AboutMeActivity.class);
+                startActivity(aboutIntent);
+                break;
+            case R.id.itemHowTo:
+                Intent howIntent = new Intent(MainActivity.this, HowToUseActivity.class);
+                startActivity(howIntent);
+                break;
         }
 
         return super.onOptionsItemSelected(item);

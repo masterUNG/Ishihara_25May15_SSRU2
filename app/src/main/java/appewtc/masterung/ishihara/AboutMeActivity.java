@@ -1,53 +1,32 @@
 package appewtc.masterung.ishihara;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 
-public class ShowScoreActivity extends ActionBarActivity {
+public class AboutMeActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_score);
-
-        //Show Score
-        showScore();
-
+        setContentView(R.layout.activity_about_me);
     }   // onCreate
 
-    public void clickExit(View view) {
-        finish();
-    }
-
-    public void clickPlay(View view) {
-        Intent objIntent = new Intent(ShowScoreActivity.this, MainActivity.class);
+    public void clickWeb(View view) {
+        Intent objIntent = new Intent(Intent.ACTION_VIEW);
+        objIntent.setData(Uri.parse("https://www.facebook.com/ubuntuEWTC"));
         startActivity(objIntent);
-        finish();
-    }
-
-
-
-    private void showScore() {
-
-        //Receive Value From MainActivity
-        int intScore = getIntent().getExtras().getInt("Score");
-
-        //Show Value to TextView
-        TextView showScoreTextView = (TextView) findViewById(R.id.txtShowScore);
-        showScoreTextView.setText(Integer.toString(intScore) + "/10" );
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_score, menu);
+        getMenuInflater().inflate(R.menu.menu_about_me, menu);
         return true;
     }
 

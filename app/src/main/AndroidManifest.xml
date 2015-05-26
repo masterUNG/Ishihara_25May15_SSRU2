@@ -21,6 +21,14 @@
             android:name=".ShowScoreActivity"
             android:label="@string/title_activity_show_score" >
         </activity>
+        <activity
+            android:name=".AboutMeActivity"
+            android:label="@string/title_activity_about_me" >
+        </activity>
+        <activity
+            android:name=".HowToUseActivity"
+            android:label="@string/title_activity_how_to_use" >
+        </activity>
     </application>
 
 </manifest>
