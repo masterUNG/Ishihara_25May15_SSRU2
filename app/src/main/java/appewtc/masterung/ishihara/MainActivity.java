@@ -1,5 +1,6 @@
 package appewtc.masterung.ishihara;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -23,7 +24,8 @@ public class MainActivity extends ActionBarActivity {
     private RadioButton choice1RadioButton, choice2RadioButton,
             choice3RadioButton, choice4RadioButton;
     private Button answerButton;
-    private int radioAnInt;
+    private int radioAnInt, indexAnInt;
+    private SSRUmodel objSsrUmodel;
 
 
     @Override
@@ -40,7 +42,36 @@ public class MainActivity extends ActionBarActivity {
         //Radio Controller
         radioController();
 
+        //About Model
+        aboutModel();
+
     }   //onCreate
+
+    private void aboutModel() {
+
+        objSsrUmodel = new SSRUmodel();
+        objSsrUmodel.setOnSSRUmodelChangeListener(new SSRUmodel.OnSSRUmodelChangeListener() {
+            @Override
+            public void onSSRUmodelChangeListener(SSRUmodel ssrUmodel) {
+
+                //Chang View
+                changeView(ssrUmodel.getButtonAnInt());
+
+            }   //event
+        });
+
+    }   //aboutModel
+
+    private void changeView(int buttonAnInt) {
+
+        //Change Image
+        int intDrawabe[] = new int[]{R.drawable.ishihara_01, R.drawable.ishihara_02,
+                R.drawable.ishihara_03, R.drawable.ishihara_04, R.drawable.ishihara_05,
+                R.drawable.ishihara_06, R.drawable.ishihara_07, R.drawable.ishihara_08,
+                R.drawable.ishihara_09, R.drawable.ishihara_10};
+        ishiharaImageView.setImageResource(intDrawabe[buttonAnInt]);
+
+    }   // changeView
 
     private void radioController() {
 
@@ -99,9 +130,40 @@ public class MainActivity extends ActionBarActivity {
 
         } else {
 
+            //Check Times
+            checkTimes();
+
         }
 
     }   //checkZero
+
+    private void checkTimes() {
+
+        if (indexAnInt == 9) {
+
+            //Intent to ShowScore
+            intentToShowScore();
+
+        } else {
+
+            //Increase
+            indexAnInt += 1;
+
+            //Show Controller Call View
+            questionTextView.setText(Integer.toString(indexAnInt + 1) + ". What is this ?" );
+
+            //Show Controller Call Model
+            objSsrUmodel.setButtonAnInt(indexAnInt);
+
+        }   // if
+
+    }   //checkTimes
+
+    private void intentToShowScore() {
+        Intent objIntent = new Intent(MainActivity.this, ShowScoreActivity.class);
+        startActivity(objIntent);
+        finish();
+    }
 
     private void soundEffect() {
 
